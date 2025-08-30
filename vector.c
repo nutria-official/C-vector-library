@@ -6,7 +6,7 @@ vector* vectorInit(const size_t DATA_TYPE) {
         return NULL;
     }
 
-    x->data = malloc(INITIALSIZE * sizeof(void*));
+    x->data = malloc(INITIALSIZE * DATA_TYPE);
     if(allocationValidation(x->data) == false) {
         free(x);
         return NULL;
@@ -18,21 +18,17 @@ vector* vectorInit(const size_t DATA_TYPE) {
 }
 
 void push(vector *x, const void *SIZE) {
-    void *element = malloc(x->data_type); // Because the original data wasen't dynamicly allocated.
-    if(allocationValidation(element) == false) {
-        return;
-    }
-    memcpy(element, SIZE, x->data_type);
-    
     if(x->size == x->capacity) {
         x->capacity *= 2;
-        void *temp = realloc(x->data, x->capacity * sizeof(void*));
-    
+        void *temp = realloc(x->data, x->capacity * x->data_type);
+        printf("Re-allocated\n");
         if(allocationValidation(temp) == false) {
             return;
         }
         x->data = temp;
     }
+    void *element = malloc(x->data_type);
+    memcpy(element, SIZE, x->data_type);
     x->data[x->size] = element;
     x->size++;
 }
@@ -42,13 +38,10 @@ void pop(vector *x) {
         perror("No values left!");
         return;
     }
-
     x->size--;
-    x->data[x->size] = NULL;
-
     if(x->size < x->capacity/RESIZESIZE) {
         x->capacity = ceil(x->capacity/RESIZEAMOUNT);
-        void *temp = realloc(x->data, x->capacity * sizeof(void*));
+        void *temp = realloc(x->data, x->capacity * x->data_type);
         if(allocationValidation(temp) == false) {
             return;
         }
@@ -61,7 +54,8 @@ void* read(vector *x, const size_t INDEX) {
         perror("Invalid index\n");
         return NULL;
     }
-    return x->data[INDEX];
+    void *temp = x->data[INDEX];
+    return temp;
 }
 
 void freeVector(vector *x) {
@@ -69,14 +63,11 @@ void freeVector(vector *x) {
         perror("Vector already deleted!");
         return;
     }
-    for(size_t i = 0; i < x->size; i++) {
-        free(x->data[i]);
-    }
     free(x->data);
     free(x);
 }
 
-size_t allocationValidation(void *x) {
+bool allocationValidation(void *x) {
     if(x == NULL) {
         perror("Memory allocation failed\n");
         return false;
