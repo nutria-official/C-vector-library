@@ -23,7 +23,7 @@ void push(vector *x, const void *SIZE);
 void pop(vector *x);
 void* read(vector *x, const size_t INDEX);
 void freeVector(vector *x);
-size_t allocationValidation(void *x); // Function for checking if memory allocation failed or not.
+bool allocationValidation(void *x); // Function for checking if memory allocation failed or not.
 
 #endif
 

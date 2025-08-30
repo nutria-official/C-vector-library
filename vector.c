@@ -76,7 +76,7 @@ void freeVector(vector *x) {
     free(x);
 }
 
-size_t allocationValidation(void *x) {
+bool allocationValidation(void *x) {
     if(x == NULL) {
         perror("Memory allocation failed\n");
         return false;
