@@ -57,7 +57,7 @@ void pop(vector *x) {
 }
 
 void* read(vector *x, const size_t INDEX) {
-    if(INDEX > x->size) {
+    if(INDEX >= x->size) {
         perror("Invalid index\n");
         return NULL;
     }
