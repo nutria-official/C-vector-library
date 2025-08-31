@@ -12,7 +12,7 @@
 #define RESIZEAMOUNT 2 // The proportion in which the vector gets resized when RESIZESIZE is reached.
 
 typedef struct {
-    void **data;
+    void *data;
     size_t size;
     size_t capacity;
     size_t data_type; // The size of the datatype.
