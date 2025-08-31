@@ -18,12 +18,6 @@ vector* vectorInit(const size_t DATA_TYPE) {
 }
 
 void push(vector *x, const void *SIZE) {
-    void *element = malloc(x->data_type); // Because the original data wasen't dynamicly allocated.
-    if(allocationValidation(element) == false) {
-        return;
-    }
-    memcpy(element, SIZE, x->data_type);
-    
     if(x->size == x->capacity) {
         x->capacity *= 2;
         void *temp = realloc(x->data, x->capacity * sizeof(void*));
@@ -33,6 +27,11 @@ void push(vector *x, const void *SIZE) {
         }
         x->data = temp;
     }
+    void *element = malloc(x->data_type); // Because the original data wasen't dynamicly allocated.
+        if(allocationValidation(element) == false) {
+        return;
+    }
+    memcpy(element, SIZE, x->data_type);
     x->data[x->size] = element;
     x->size++;
 }
