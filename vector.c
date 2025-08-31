@@ -21,15 +21,13 @@ void push(vector *x, const void *SIZE) {
     if(x->size == x->capacity) {
         x->capacity *= 2;
         void *temp = realloc(x->data, x->capacity * x->data_type);
-        printf("Re-allocated\n");
         if(allocationValidation(temp) == false) {
             return;
         }
         x->data = temp;
     }
-    void *element = malloc(x->data_type);
-    memcpy(element, SIZE, x->data_type);
-    x->data[x->size] = element;
+    void *target = x->data + (x->size * x->data_type); 
+    memcpy(target, SIZE, x->data_type);
     x->size++;
 }
 
@@ -50,11 +48,11 @@ void pop(vector *x) {
 }
 
 void* read(vector *x, const size_t INDEX) {
-    if(INDEX > x->size) {
+    if(INDEX >= x->size) {
         perror("Invalid index\n");
         return NULL;
     }
-    void *temp = x->data[INDEX];
+    void *temp = x->data + (INDEX * x->data_type);
     return temp;
 }
 
